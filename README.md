@@ -4,20 +4,22 @@
 
 1. **Preparation**
    - Clone the repo recursively or manually initialize the submodules (kokkos) with
-     > git submodule update --init
+     > `git submodule update --init`
 
 2. **Compile with CMake**
    - Create a build directory:
-     > mkdir build && cd build
+     > `mkdir build && cd build`
    - Run CMake to configure the project:
-     > cmake ..
+     > `cmake ..`
+
      On Aurora
-     > cmake -DKokkos_ENABLE_SYCL=ON -DKokkos_ARCH_INTEL_PVC=ON ..
+     > `cmake -DKokkos_ENABLE_SYCL=ON -DKokkos_ARCH_INTEL_PVC=ON ..`
    - Compile the code:
-     > make
+     > `make`
 
 3. **Run the code**
    - Run the executable, providing the path to the data folder (/data in the repository) as an argument:
-     > ./athenak_test_kernel /path/to/data
+     > `./athenak_test_kernel /path/to/data`
+
      On Aurora, allocate 1 node and run:
-     > mpiexec --ppn 1 ./athenak_test_kernel /path/to/data
+     > `mpiexec --ppn 1 ./athenak_test_kernel /path/to/data`
