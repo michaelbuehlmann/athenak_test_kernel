@@ -110,7 +110,7 @@ void kernel(Kokkos::View<int **> nghbr_gid,
 }
 
 int main(int argc, char *argv[]) {
-  Kokkos::initialize(argc, argv);
+  Kokkos::ScopeGuard guard(argc, argv);
   {
     Kokkos::View<int **, DevMemSpace> nghbr_gid("nghbr_gid", nmb, nnghbr);
     Kokkos::View<int **, DevMemSpace> nghbr_lev("nghbr_lev", nmb, nnghbr);
@@ -124,7 +124,7 @@ int main(int argc, char *argv[]) {
     if (argc == 2) {
       base_dir = std::string(argv[1]);
     } else {
-      std::cerr << "Usage: ./main <path_to_data_folder>" << std::endl;
+      std::cerr << "Usage: " << argv[0] << " <path_to_data_folder>" << std::endl;
       return 1;
     }
     std::cout << "Loading data from: " << base_dir << std::endl;
@@ -141,6 +141,5 @@ int main(int argc, char *argv[]) {
     kernel(nghbr_gid, nghbr_lev, sbuf_icoar, sbuf_isame, sbuf_ifine, mblev);
     std::cout << "Kernel executed successfully!" << std::endl;
   }
-  Kokkos::finalize();
   return 0;
 }

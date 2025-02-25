@@ -18,7 +18,10 @@
      > `make`
 
 3. **Run the code**
-   - Run the executable, providing the path to the data folder (/data in the repository) as an argument:
+   - **Simple kernel**
+     > `mpiexec --ppn 1 ./test_kernel`
+
+   - **AthenaK kernel** Run the executable, providing the path to the data folder (/data in the repository) as an argument:
      > `./athenak_test_kernel /path/to/data`
 
      On Aurora, allocate 1 node and run:

@@ -9,3 +9,6 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/kokkos)
 add_executable(athenak_test_kernel src/main.cpp src/data.hpp)
 target_include_directories(athenak_test_kernel PRIVATE ${CMAKE_SOURCE_DIR}/src)
 target_link_libraries(athenak_test_kernel Kokkos::kokkos)
+
+add_executable(test_kernel src_simple/main.cpp )
+target_link_libraries(test_kernel Kokkos::kokkos)
