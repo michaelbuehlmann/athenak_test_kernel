@@ -5,7 +5,6 @@
 using DevExeSpace = Kokkos::DefaultExecutionSpace;
 using DevMemSpace = Kokkos::DefaultExecutionSpace::memory_space;
 using TeamMember_t = Kokkos::TeamPolicy<>::member_type;
-using LayoutWrapper = Kokkos::LayoutRight;
 
 constexpr int nmb = 8;
 constexpr int nnghbr = 56;
@@ -113,12 +112,12 @@ void kernel(Kokkos::View<int **> nghbr_gid,
 int main(int argc, char *argv[]) {
   Kokkos::initialize(argc, argv);
   {
-    Kokkos::View<int **> nghbr_gid("nghbr_gid", nmb, nnghbr);
-    Kokkos::View<int **> nghbr_lev("nghbr_lev", nmb, nnghbr);
-    Kokkos::View<int **> sbuf_icoar("sbuf_icoar", nnghbr, 6);
-    Kokkos::View<int **> sbuf_isame("sbuf_isame", nnghbr, 6);
-    Kokkos::View<int **> sbuf_ifine("sbuf_ifine", nnghbr, 6);
-    Kokkos::View<int *> mblev("mblev", nmb);
+    Kokkos::View<int **, DevMemSpace> nghbr_gid("nghbr_gid", nmb, nnghbr);
+    Kokkos::View<int **, DevMemSpace> nghbr_lev("nghbr_lev", nmb, nnghbr);
+    Kokkos::View<int **, DevMemSpace> sbuf_icoar("sbuf_icoar", nnghbr, 6);
+    Kokkos::View<int **, DevMemSpace> sbuf_isame("sbuf_isame", nnghbr, 6);
+    Kokkos::View<int **, DevMemSpace> sbuf_ifine("sbuf_ifine", nnghbr, 6);
+    Kokkos::View<int *, DevMemSpace> mblev("mblev", nmb);
 
     // Load data from files
     std::string base_dir = "";
@@ -128,14 +127,17 @@ int main(int argc, char *argv[]) {
       std::cerr << "Usage: ./main <path_to_data_folder>" << std::endl;
       return 1;
     }
+    std::cout << "Loading data from: " << base_dir << std::endl;
     load_data(base_dir + "/nghbr_gid.txt", nghbr_gid);
     load_data(base_dir + "/nghbr_lev.txt", nghbr_lev);
     load_data(base_dir + "/sbuf_icoar.txt", sbuf_icoar);
     load_data(base_dir + "/sbuf_isame.txt", sbuf_isame);
     load_data(base_dir + "/sbuf_ifine.txt", sbuf_ifine);
     load_data(base_dir + "/mblev.txt", mblev);
+    std::cout << "Done loading data!" << std::endl;
 
     // Call the kernel
+    std::cout << "Executing kernel..." << std::endl;
     kernel(nghbr_gid, nghbr_lev, sbuf_icoar, sbuf_isame, sbuf_ifine, mblev);
     std::cout << "Kernel executed successfully!" << std::endl;
   }

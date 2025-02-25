@@ -25,7 +25,6 @@ void load_data(const std::string &filename, ViewType d_view) {
       temp.push_back(value);
     }
   }
-  std::cout << d_view.label() << " temp_size: " << temp.size() << " d_view_size: " << d_view.size() << std::endl;
 
   if constexpr (ViewType::rank == 1) {
     if (temp.size() != h_view.extent(0)) {
