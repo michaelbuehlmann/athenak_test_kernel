@@ -4,13 +4,15 @@
 
 1. **Preparation**
    - Clone the repo recursively or manually initialize the submodules (kokkos) with
-     > git submodules update --init
+     > git submodule update --init
 
 2. **Compile with CMake**
    - Create a build directory:
      > mkdir build && cd build
    - Run CMake to configure the project:
      > cmake ..
+     On Aurora
+     > cmake -DKokkos_ENABLE_SYCL=ON -DKokkos_ARCH_INTEL_PVC=ON ..
    - Compile the code:
      > make
 
